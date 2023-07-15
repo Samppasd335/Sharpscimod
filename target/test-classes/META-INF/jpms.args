@@ -1,0 +1,4 @@
+--patch-module
+com.mycompany.datagrapher=_
+--add-reads
+com.mycompany.datagrapher=ALL-UNNAMED

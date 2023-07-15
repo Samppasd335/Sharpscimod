@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Data grapher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-highway.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles.css" type="text/css"/>
+  </head>
+  <body> 
+
+    <section class="navigation w3-metro-light-blue w3-container">
+      <button onclick="goToTop()" id="back-to-top" title="Go to top"><i class="fa fa-toggle-up"></i></button>
+      <nav class="nav-container">
+        <div class="logo w3-padding-large"> 
+          <p>DATAGRAPH</p>
+        </div>
+        <div class="mobile-button">
+          <span style="float: right;" onclick="toggleMobileNavigation()">&#9776;</span>
+        </div>
+        <div class="links">
+          <a href="#guide" >GUIDE</a>-
+          <a href="#example" >EXAMPLE</a>-
+          <a href="#convert" >CONVERT</a>            
+        </div>
+        <div id="mobile-sidenav" class="mobile-links w3-sand">
+          <a href="javascript:void(0)" class="closebtn w3-round" onclick="toggleMobileNavigation()">&times;</a>
+          <a href="#guide" onclick="toggleMobileNavigation()">GUIDE</a>
+          <a href="#example" onclick="toggleMobileNavigation()">EXAMPLE</a>
+          <a href="#convert" onclick="toggleMobileNavigation()">CONVERT</a>
+        </div>
+      </nav>
+    </section>
+
+    <section class="hero w3-padding-large w3-container">
+      <h1 style="display: inline;"><span><i class="fa fa-check-square-o"></i></span>Convert text data into a visual representation!</h1>
+      <p>Represent text data as vector icons</p>
+      <a href="#convert" class="w3-padding-large w3-round">Graph Your Data</a>
+    </section>
+
+    <section class="guide w3-padding-large w3-container" id="guide">
+      <div class="content container w3-round-large">
+        <h2 style="text-align: center;">- Quick Guide -</h2>
+        <p style="text-align: center;">Just paste the data....</p>
+      </div>
+
+      <div class="example content container w3-margin-top w3-round-large" id="example">
+        <h3 style="text-align: center;">- Example -</h3>
+        <div class="l-cards">
+          <div class="l-card">
+            <h4><strong>Input</strong></h4>
+            <pre style="margin-top: 0 !important;">
+1010101010x101010101010101010
+0110110011x011001101100110011
+1100111111x001111001111001111
+0000000100x000001000000010000
+1111111111x111111111111111111
+0101010101x010101010101010101
+0011001100x110011001100110011
+1100001100x001100011000110000
+1010101010x101010101010101010
+0110110011x011001101100110011
+1100111111x001111001111001111
+0000000100x000001000000010000
+1111111111x111111111111111111
+0101010101x010101010101010101
+0011001100x110011001100110011
+1100001100x001100011000110000
+1010101010x101010101010101010
+0110110011x011001101100110011
+1100111111x001111001111001111
+0000000100x000001000000010000
+11111111111111111111111111111
+01010101010v01010101010101010
+00110011001100110011001100110
+11000011001100011000110001100
+10101010101010101010101010101
+01101100110110011011001101100
+11001111110011110011110011110
+00000001000000010000000100000
+11111111111111111111111111111
+01010101010101010101010101010
+00110011001100110011001100110
+            </pre>
+          </div>
+          <div class="l-card">
+            <h4><strong>Output</strong></h4>
+            <div class="circular-portrait">
+                <iframe class="responsive-iframe" src="output.pdf" title="Pdf viewer"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="convert w3-container convert" id="convert">
+      <div class="form guide w3-margin-top">
+        <div class="container w3-round-xlarge">
+          <form class="w3-highway-blue w3-padding-large w3-round-large">
+            <h3 style="text-align: center;"><i class="fa fa-check-square-o" style="font-size: 15px;"></i>Convert text into icons</h3>
+            <label for="subject">Insert data</label>
+            <textarea id="subject" name="subject" placeholder="Write something.." style="height:600px"></textarea>
+            <p>Hope it works!</p><br>
+            <input class="w3-round-large" type="submit" value="Generate & download PDF">
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="w3-container footer">
+      <p class="w3-center logo">© 2023 - DATAGRAPH - All rights reserved</p>
+    </section>
+
+  <script async>
+      const backToTop = document.getElementById("back-to-top");
+
+      function toggleMobileNavigation() {
+        const mobileNavigation = document.getElementById("mobile-sidenav");
+        mobileNavigation.classList.toggle('mobile-links-active');
+      }
+
+      function goToTop() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+      }
+
+      function scroll() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) backToTop.style.display = "block";
+        else backToTop.style.display = "none";
+      }
+
+      window.onscroll = function() {scroll()};
+      
+      document.querySelector('form').addEventListener('submit', async function(event) {
+    event.preventDefault(); // estää lomakkeen oletuslähetystoiminnon
+
+    const textData = document.getElementById('subject').value;
+
+    const response = await fetch('/api/generate-pdf', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(textData)
+    });
+
+    if (!response.ok) {
+      console.error('Error:', response.statusText);
+      return;
+    }
+
+    const byteData = await response.arrayBuffer();
+
+    const blob = new Blob([byteData], {type: 'application/pdf'});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'output.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+  
+  </script>
+  </body>
+</html>

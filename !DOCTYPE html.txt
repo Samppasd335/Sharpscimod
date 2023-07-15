@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8">
+<title>Interactive Image Editor</title>
+<style>#controls{margin-top:20px}</style>
+</head>
+<body><div id='poweredBy' style='position: fixed; right: 0; bottom: 0; background-color: #0078D7; color: white; padding: 10px; z-index: 1000; border-top-left-radius: 10px; font-family: Roboto, sans-serif;'><span class='info-icon' style='margin-right: 5px; font-size: 1.2em;'>&#x2139;</span> Powered by <b><a href='https://converter.app' style='color: white;' target="_blank">Converter App</a></b>
+</div>
+<textarea id="dataInput" rows="5"></textarea>
+<svg id="canvas" width="800" height="600"></svg>
+<div id="controls">
+<label for="rowSpacing">Row Spacing:</label>
+<input type="range" id="rowSpacing" name="rowSpacing" min="1" max="100">
+<label for="strokeWidth">Stroke Width:</label>
+<input type="range" id="strokeWidth" name="strokeWidth" min="1" max="10">
+<button id="redraw">Redraw</button>
+</div>
+<script>const svg=document.getElementById('canvas');const dataInput=document.getElementById('dataInput');const rowSpacingInput=document.getElementById('rowSpacing');const strokeWidthInput=document.getElementById('strokeWidth');const redrawButton=document.getElementById('redraw');function draw(){const data=dataInput.value;const rowSpacing=rowSpacingInput.value;const strokeWidth=strokeWidthInput.value;svg.innerHTML='';const rows=data.split('\n');for(let i=0;i<rows.length;i++){const row=rows[i];for(let j=0;j<row.length;j++){const character=row[j];if(character==='1'){const circle=document.createElementNS('http://www.w3.org/2000/svg','circle');circle.setAttribute('cx',j*10);circle.setAttribute('cy',i*10*rowSpacing);circle.setAttribute('r',5);circle.setAttribute('fill','black');svg.appendChild(circle);}else if(character==='0'){const circle=document.createElementNS('http://www.w3.org/2000/svg','circle');circle.setAttribute('cx',j*10);circle.setAttribute('cy',i*10*rowSpacing);circle.setAttribute('r',5);circle.setAttribute('fill','white');circle.setAttribute('stroke','black');circle.setAttribute('stroke-width',strokeWidth);svg.appendChild(circle);}else if(character==='x'){const line=document.createElementNS('http://www.w3.org/2000/svg','line');line.setAttribute('x1',j*10-5);line.setAttribute('y1',i*10*rowSpacing-5);line.setAttribute('x2',j*10+5);line.setAttribute('y2',i*10*rowSpacing+5);line.setAttribute('stroke','black');line.setAttribute('stroke-width',strokeWidth);svg.appendChild(line);}}}}redrawButton.addEventListener('click',draw);</script>
+</body>
+</html>

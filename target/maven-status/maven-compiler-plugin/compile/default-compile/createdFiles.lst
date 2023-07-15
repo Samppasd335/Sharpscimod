@@ -1,0 +1,10 @@
+com\mycompany\datagrapher\ImageSettings.class
+com\mycompany\datagrapher\DataGraphApplication.class
+com\mycompany\datagrapher\DataVisualizer.class
+com\mycompany\datagrapher\ProcessData.class
+com\mycompany\datagrapher\Circle.class
+com\mycompany\datagrapher\Line.class
+module-info.class
+com\mycompany\datagrapher\AppException.class
+com\mycompany\datagrapher\Shape.class
+com\mycompany\datagrapher\DataGraphController.class
