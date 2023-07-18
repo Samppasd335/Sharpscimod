@@ -1,4 +1,5 @@
 package com.mycompany.datagrapher;
+
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -13,25 +14,26 @@ import java.util.stream.Collectors;
 @Component
 public class ProcessData {
 
-    public byte[] convertTextToPDF(String userInput) throws IOException {
+    public byte[] convertTextToPDF(String userInput) throws AppException {
         return drawToPdfFile(createDrawableMatrix(parseInput(userInput)));
     }
 
-    private List<String> parseInput(String userInput) throws IOException {
+    private List<String> parseInput(String userInput) {
         try (BufferedReader reader = new BufferedReader(new StringReader(userInput))) {
             List<String> list = reader.lines()
-                    .flatMap(line -> Arrays.stream(line.split("n")))
-                    .map(line -> line.replaceAll("[\"\\\\t]", "")
-                            .replaceAll("\\s+", "")
-                            .trim())
+                    .flatMap(line -> Arrays.stream(line.split("\\\\n")))
+                    .map(line -> line.replaceAll("[\"\\\\t|\\s+]", "")
+                    .trim())
                     .collect(Collectors.toCollection(ArrayList::new));
 
             Collections.reverse(list);
             return list;
+        } catch (IOException e) {
+            throw new AppException("Bad input" + e.getCause());
         }
     }
 
-    public byte[] drawToPdfFile(List<List<Shape>> matrix) throws IOException {
+    public byte[] drawToPdfFile(List<List<Shape>> matrix) throws AppException {
         DataVisualizer visualizer = new DataVisualizer();
 
         for (List<Shape> row : matrix) {
@@ -41,7 +43,7 @@ public class ProcessData {
         return visualizer.generatePdfAsByteArray();
     }
 
-    private List<List<Shape>> createDrawableMatrix(List<String> data) throws IOException {
+    private List<List<Shape>> createDrawableMatrix(List<String> data) throws AppException {
         int rows = data.size();
         List<List<Shape>> matrix = new ArrayList<>();
 
@@ -59,7 +61,7 @@ public class ProcessData {
         }
         return matrix;
     }
-    private Shape createShape(char symbol, float x, float y) throws IOException {
+    private Shape createShape(char symbol, float x, float y) throws AppException {
         return switch (symbol) {
             case '1' -> new Circle(x, y, true, false);
             case '0' -> new Circle(x, y, false, true);

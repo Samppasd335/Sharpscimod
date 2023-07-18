@@ -2,7 +2,6 @@ package com.mycompany.datagrapher;
 
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
-import java.io.IOException;
 
 public class Circle extends Shape {
     private final float x;
@@ -11,7 +10,7 @@ public class Circle extends Shape {
     private final boolean hasBorder;
 
     public Circle(float x, float y, boolean filled, boolean hasBorder) 
-            throws IOException {
+            throws AppException {
         super();
         
         this.x = convertIndexToPageLocation(x) * colSpacing;
@@ -21,7 +20,7 @@ public class Circle extends Shape {
     }
 
     @Override
-    public void drawShape(PdfCanvas canvas) throws IOException {
+    public void drawShape(PdfCanvas canvas) throws AppException {
         canvas.setLineWidth(ImageSettings.getSetting("lineWidth"));
         canvas.circle(x, y, symbolSize/2);
 

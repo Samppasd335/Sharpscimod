@@ -91,7 +91,7 @@
           <div class="l-card">
             <h4><strong>Output</strong></h4>
             <div class="circular-portrait">
-                <iframe class="responsive-iframe" src="output.pdf" title="Pdf viewer"></iframe>
+                <iframe class="responsive-iframe" src="data_graph.pdf" title="Pdf viewer"></iframe>
             </div>
           </div>
         </div>
@@ -117,55 +117,55 @@
     </section>
 
   <script async>
-      const backToTop = document.getElementById("back-to-top");
+    const backToTop = document.getElementById("back-to-top");
 
-      function toggleMobileNavigation() {
-        const mobileNavigation = document.getElementById("mobile-sidenav");
-        mobileNavigation.classList.toggle('mobile-links-active');
-      }
-
-      function goToTop() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-      }
-
-      function scroll() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) backToTop.style.display = "block";
-        else backToTop.style.display = "none";
-      }
-
-      window.onscroll = function() {scroll()};
-      
-      document.querySelector('form').addEventListener('submit', async function(event) {
-    event.preventDefault(); // estää lomakkeen oletuslähetystoiminnon
-
-    const textData = document.getElementById('subject').value;
-
-    const response = await fetch('/api/generate-pdf', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(textData)
-    });
-
-    if (!response.ok) {
-      console.error('Error:', response.statusText);
-      return;
+    function toggleMobileNavigation() {
+      const mobileNavigation = document.getElementById("mobile-sidenav");
+      mobileNavigation.classList.toggle('mobile-links-active');
     }
 
-    const byteData = await response.arrayBuffer();
+    function goToTop() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
 
-    const blob = new Blob([byteData], {type: 'application/pdf'});
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'output.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  });
-  
+    function scroll() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) backToTop.style.display = "block";
+      else backToTop.style.display = "none";
+    }
+
+      window.onscroll = function() {scroll()};
+
+      document.querySelector('form').addEventListener('submit', async function(event) {
+        event.preventDefault(); // estää lomakkeen oletuslähetystoiminnon
+
+        const textData = document.getElementById('subject').value;
+
+        const response = await fetch('/api/generate-pdf', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(textData)
+        });
+
+        if (!response.ok) {
+          console.error('Error:', response.statusText);
+          return;
+        }
+
+        const byteData = await response.arrayBuffer();
+
+        const blob = new Blob([byteData], {type: 'application/pdf'});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'data_graph.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+
   </script>
   </body>
 </html>

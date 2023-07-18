@@ -1,7 +1,6 @@
 package com.mycompany.datagrapher;
 
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
-import java.io.IOException;
 
 public abstract class Shape {
     protected final float symbolSize;
@@ -11,7 +10,7 @@ public abstract class Shape {
     protected final float lineWidth;
     protected final float centerAdjustment;
 
-    protected Shape() throws IOException {
+    protected Shape() throws AppException {
         this.rowSpacing = ImageSettings.getSetting("rowSpacing");
         this.colSpacing = ImageSettings.getSetting("colSpacing");
         this.symbolSize = ImageSettings.getSetting("symbolSize");
@@ -21,7 +20,7 @@ public abstract class Shape {
         this.centerAdjustment = pageMargin + symbolSize / 2 + lineWidth;
     }
 
-    public abstract void drawShape(PdfCanvas canvas) throws IOException;
+    public abstract void drawShape(PdfCanvas canvas) throws AppException;
     
     protected float convertIndexToPageLocation(float index) {
         return index * symbolSize + centerAdjustment;

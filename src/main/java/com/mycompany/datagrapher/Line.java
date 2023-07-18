@@ -1,6 +1,5 @@
 package com.mycompany.datagrapher;
 
-import com.itextpdf.io.exceptions.IOException;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 
 public class Line extends Shape {
@@ -9,7 +8,7 @@ public class Line extends Shape {
     private final float beginY;
     private final float endY;
 
-    public Line(float x, float y) throws IOException, java.io.IOException {
+    public Line(float x, float y) throws AppException {
         super();
         this.beginX = convertIndexToPageLocation(x) * colSpacing - symbolSize / 2;
         this.endX = beginX + symbolSize;
@@ -18,7 +17,7 @@ public class Line extends Shape {
     }
 
     @Override
-    public void drawShape(PdfCanvas canvas) throws IOException {
+    public void drawShape(PdfCanvas canvas) throws AppException {
         canvas.setLineWidth(lineWidth);
 
         canvas.moveTo(beginX, beginY);

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api")
 public class DataGraphController {
     private final ProcessData processData;
+
     @Autowired
     public DataGraphController(ProcessData processData) {
         this.processData = processData;
@@ -30,24 +31,19 @@ public class DataGraphController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-         String sanitizedInput = sanitizeInput(userInput);
-         try {
-             byte[] pdfBytes = processData.convertTextToPDF(sanitizedInput);
-             HttpHeaders headers = new HttpHeaders();
-             headers.setContentType(MediaType.APPLICATION_PDF);
-             headers.setContentDispositionFormData("attachment", "data_graph.pdf");
-             return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+	try {
+        byte[] pdfBytes = processData.convertTextToPDF(userInput);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("attachment", "output.pdf");
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
 
-         } catch (Exception e) {
-             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
-         }
+        } catch (Exception e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-     private boolean isValidInput(String userInput) {
-            return userInput != null && !userInput.isEmpty();
-     }
-     private String sanitizeInput(String userInput) {
-            return userInput.replaceAll("[^a-zA-Z0-9]", "");
-     }
-}
 
+    private boolean isValidInput(String userInput) {
+        return userInput != null && !userInput.isEmpty();
+    }
+}
